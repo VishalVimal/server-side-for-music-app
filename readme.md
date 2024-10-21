@@ -19,4 +19,4 @@ whenever we install any dependency it will only be present for this particular f
 - created a simple api route
 - fastapi dev main.py (to run the app in developer mode(dev))
 - 127.0.0.1 (local host)
-- anythin after a question mark is a query in url
+- anything after a question mark is a query in url
