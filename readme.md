@@ -20,3 +20,6 @@ whenever we install any dependency it will only be present for this particular f
 - fastapi dev main.py (to run the app in developer mode(dev))
 - 127.0.0.1 (local host)
 - anything after a question mark is a query in url
+
+day 2:
+    I have done the route for the signup validation and installed postgres sql. 
