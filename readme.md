@@ -35,4 +35,7 @@ creating a virtual environment for this project, all the dependecies that are pr
 - session created 
 - initialized database
 - created table structure 
+- written the sql query
+- sucessfully created the api route for the signup
+
 
