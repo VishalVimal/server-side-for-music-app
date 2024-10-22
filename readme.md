@@ -22,4 +22,14 @@ whenever we install any dependency it will only be present for this particular f
 - anything after a question mark is a query in url
 
 day 2:
-    I have done the route for the signup validation and installed postgres sql. 
+- I have done the route for the signup validation and installed postgres sql. 
+
+day 3:
+- SQLAlchemy - to connect backend framework to external database
+- installed SQLAlchemy
+- importing engine 
+- called the function with specefic url 
+- creating a session 
+- sqlalchemy has session maker
+- 
+
