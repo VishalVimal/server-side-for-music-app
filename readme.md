@@ -34,5 +34,5 @@ creating a virtual environment for this project, all the dependecies that are pr
 - sqlalchemy has session maker
 - session created 
 - initialized database
-- 
+- created table structure 
 

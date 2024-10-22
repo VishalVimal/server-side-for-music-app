@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from sqlalchemy import create_engine #function that will create a engine
+from sqlalchemy import TEXT, VARCHAR, Column, LargeBinary, create_engine #function that will create a engine
 from sqlalchemy.orm import sessionmaker #function that will create a session
-from sqlalchemy.ext.declarative import declarative_base #   
+from sqlalchemy.ext.declarative import declarative_base   
+import uuid
 
 app = FastAPI()
 
@@ -26,19 +27,36 @@ class UserCreate(BaseModel):
     email: str
     password: str
 
-Base = declarative_base                         #Create a class user which will define the structure of the user model
+Base = declarative_base()                        #Create a class user which will define the structure of the user model
                                                 # in the database and then we can use that User to do multiple task like 
                                                 # storing the data in the db and checking the user if he exists in the database 
                                                 # if does not exsits it will create the database 
-class User(Base)
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(TEXT, primary_key = True)
+    name = Column(VARCHAR(100))
+    email = Column(VARCHAR(100))
+    password = Column(LargeBinary) #text1234 -> we going to hash the password 
+    
 @app.post('/signup')
 def signup_user(user: UserCreate):
     #extracts the data that coming form the textfields
-    print(user.name+"\n",user.email+"\n",user.password)
+    #print(user.name+"\n",user.email+"\n",user.password) -> we have extracted the user data
     #check if the user already exists in the database
+    user_db = db.query(User).filter(User.email == user.email).first()
+    if user_db:
+        return 'User with the same email already exists!'
     
+    user_db = User(id=str(uuid.uuid4()),email=user.email,password=user.password,name=user.name)
     #add the user to the database
-    pass 
+    db.add(user_db)
+    db.commit()
+    
+    return user_db
+
+Base.metadata.create_all(engine) #unites all the class that extends base so that it can 
+                                #create table based on the classes
+                                
 
 #first api route has been created
 #it should return something or it will return as null
