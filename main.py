@@ -1,21 +1,31 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from sqlalchemy import create_engine #function that will create a engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker #function that will create a session
+from sqlalchemy.ext.declarative import declarative_base 
 app = FastAPI()
 
-engine = create_engine(DATABASE_URL) #function calling the engine, requires databse url
 DATABASE_URL = 'postgresql://postgres:vishal_404@localhost:5432/musicapp'
+engine = create_engine(DATABASE_URL) #function calling the engine, requires databse url
 #enginei is the starting point fro the sqlalchemy application thats need to connect to the database
 
-SessionLocal = sessionmaker(autocommit = False) #function that create the session objects when it called 
+SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = engine) #function that create the session objects when it called 
                                                 #autocommit = False says that the session will not be automatically committed 
-                                                #we should manually commit the session(session.commit)
+                                                # we should manually commit the session(session.commit)
+                                                #autoflush = this autoflush determines whether the 
+                                                # session automatically flush changes to the database before certain operations
+                                                # setting it to False means that  Disables automatic flushing, waits until we give session.commint() or session.flush() 
+                                                # which can improve performance in certain scenarios but requires manual control over when to flush.
+                                                # important for transaction integrity and consistency 
+                                                #bind parameter specefies which engine should it use 
+db = SessionLocal()                                                                 
+
 class UserCreate(BaseModel):
     name: str
     email: str
     password: str
-    
+
+class User()
 @app.post('/signup')
 def signup_user(user: UserCreate):
     #extracts the data that coming form the textfields

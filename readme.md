@@ -31,5 +31,7 @@ day 3:
 - called the function with specefic url 
 - creating a session 
 - sqlalchemy has session maker
+- session created 
+- initialized database
 - 
 
