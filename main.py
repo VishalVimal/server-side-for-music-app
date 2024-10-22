@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+import bcrypt
+from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
 from sqlalchemy import TEXT, VARCHAR, Column, LargeBinary, create_engine #function that will create a engine
 from sqlalchemy.orm import sessionmaker #function that will create a session
 from sqlalchemy.ext.declarative import declarative_base   
 import uuid
+import python_multipart
 
 app = FastAPI()
 
@@ -47,7 +49,9 @@ def signup_user(user: UserCreate):
     if user_db:
         return 'User with the same email already exists!'
     
-    user_db = User(id=str(uuid.uuid4()),email=user.email,password=user.password,name=user.name)
+    hash_password = bcrypt.hashpw(user.password.encode(),bcrypt.gensalt(16)) #using bcrypt to hash password, salt -> random piece of data to create a unique hash, 
+                                                            # even if the user has two user has same password that hash value differs
+    user_db = User(id=str(uuid.uuid4()),email=user.email,password=hash_password,name=user.name)
     #add the user to the database
     db.add(user_db)
     db.commit()
