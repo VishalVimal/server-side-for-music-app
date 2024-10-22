@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from sqlalchemy import create_engine #function that will create a engine
 from sqlalchemy.orm import sessionmaker #function that will create a session
-from sqlalchemy.ext.declarative import declarative_base 
+from sqlalchemy.ext.declarative import declarative_base #   
+
 app = FastAPI()
 
 DATABASE_URL = 'postgresql://postgres:vishal_404@localhost:5432/musicapp'
@@ -25,7 +26,11 @@ class UserCreate(BaseModel):
     email: str
     password: str
 
-class User()
+Base = declarative_base                         #Create a class user which will define the structure of the user model
+                                                # in the database and then we can use that User to do multiple task like 
+                                                # storing the data in the db and checking the user if he exists in the database 
+                                                # if does not exsits it will create the database 
+class User(Base)
 @app.post('/signup')
 def signup_user(user: UserCreate):
     #extracts the data that coming form the textfields
