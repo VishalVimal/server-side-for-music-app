@@ -1,5 +1,5 @@
 import bcrypt
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
 from sqlalchemy import TEXT, VARCHAR, Column, LargeBinary, create_engine #function that will create a engine
 from sqlalchemy.orm import sessionmaker #function that will create a session
@@ -47,7 +47,8 @@ def signup_user(user: UserCreate):
     #check if the user already exists in the database
     user_db = db.query(User).filter(User.email == user.email).first()
     if user_db:
-        return 'User with the same email already exists!'
+        raise HTTPException(400,'User with the same email already exists!') #using http exception we can return the error code 
+        #return -> using return will return the message but not as an error as error 400
     
     hash_password = bcrypt.hashpw(user.password.encode(),bcrypt.gensalt(16)) #using bcrypt to hash password, salt -> random piece of data to create a unique hash, 
                                                             # even if the user has two user has same password that hash value differs
@@ -55,7 +56,7 @@ def signup_user(user: UserCreate):
     #add the user to the database
     db.add(user_db)
     db.commit()
-    
+    db.refresh(user_db) #refresh all the instance in the userdb and stores the correct value
     return user_db
 
 Base.metadata.create_all(engine) #unites all the class that extends base so that it can 
