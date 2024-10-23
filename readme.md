@@ -38,4 +38,6 @@ creating a virtual environment for this project, all the dependecies that are pr
 - written the sql query
 - sucessfully created the api route for the signup
 
+6.
+- refactored code 
 
