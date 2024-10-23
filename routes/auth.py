@@ -1,15 +1,17 @@
 import uuid
 import bcrypt
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException
+from database import get_db
 from models.user import User
 from pydantic_schemas.user_create import UserCreate
 from fastapi import APIRouter
-from database import db
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
+#if the user sends a request to the /auth/signup this /signup function is going to get triggered 
 @router.post('/signup')
-def signup_user(user: UserCreate):
+def signup_user(user: UserCreate, db:Session=Depends(get_db)):
     #extracts the data that coming form the textfields
     #print(user.name+"\n",user.email+"\n",user.password) -> we have extracted the user data
     #check if the user already exists in the database
@@ -19,7 +21,7 @@ def signup_user(user: UserCreate):
         #return -> using return will return the message but not as an error as error 400
     
     hash_password = bcrypt.hashpw(user.password.encode(),bcrypt.gensalt(16)) #using bcrypt to hash password, salt -> random piece of data to create a unique hash, 
-                                                            # even if the user has two user has same password that hash value differs
+                                                                             # even if the user has two user has same password that hash value differs
     user_db = User(id=str(uuid.uuid4()),email=user.email,password=hash_password,name=user.name)
     #add the user to the database
     db.add(user_db)

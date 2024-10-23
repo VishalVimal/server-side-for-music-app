@@ -15,4 +15,9 @@ SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = engine
                                                 # which can improve performance in certain scenarios but requires manual control over when to flush.
                                                 # important for transaction integrity and consistency 
                                                 #bind parameter specefies which engine should it use 
-db = SessionLocal()  
+def get_db(): #exception
+    db = SessionLocal() 
+    try:
+        yield db 
+    finally:
+        db.close()
