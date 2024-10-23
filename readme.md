@@ -1,43 +1,47 @@
-creating a virtual environment for this project, all the dependecies that are present only be there for this project, it will not affect any other modules and dependecies i add to other projects
+# Project Title
 
-1. Creating Virtual Environment 
-- python3 -m venv venv -> creates a new virtual environment 
- in the folder VNV
- -m venv  (runs vnv module)
-- venv (directory name)
- [got error while running python3 so used python -m venv venv]
+## Overview
+This project involved creating a virtual environment to manage dependencies, ensuring that they were isolated from other projects.
 
-2. activate the virtual environment
-- source ./venv/bin/activate 
- source - shell command to execute the script
- ./venv/bin/activate - path to activate the virtual environment
- [ i jsut tired to run it using this command but the venv folder has Scripts folder which contains activate command and i changed the directory to the scripts and activated the virtual environment]
-- whenever we install any dependency it will only be present for this particular folder 
+## 1. Creating a Virtual Environment
+- Executed `python3 -m venv venv` to create a new virtual environment in the `venv` folder.
+  - `-m venv` runs the venv module.
+  - `venv` is the directory name.
+- Encountered an error while running `python3`, so used `python -m venv venv` instead.
 
-3. Create a API
-- Using Fast API
-- pip3 install fastapi
-- created a simple api route
-- fastapi dev main.py (to run the app in developer mode(dev))
-- 127.0.0.1 (local host)
-- anything after a question mark is a query in url
+## 2. Activating the Virtual Environment
+- Activated the virtual environment using:
+  ```bash
+  source ./venv/bin/activate
+  ```
+  - `source` is the shell command to execute the script.
+  - `./venv/bin/activate` is the path to activate the virtual environment.
+- Initially attempted to run it using a command that pointed to the `Scripts` folder, but successfully activated the environment from the correct directory.
+- Ensured that any installed dependencies were only present in this specific folder.
 
-4.
-- I have done the route for the signup validation and installed postgres sql. 
+## 3. Creating an API
+- Utilized FastAPI for API development.
+- Installed FastAPI with:
+  ```bash
+  pip3 install fastapi
+  ```
+- Created a simple API route and ran the app in developer mode using:
+  ```bash
+  fastapi dev main.py
+  ```
+- Accessed the application at `127.0.0.1`.
+- Noted that anything after a question mark in the URL is treated as a query.
 
-5.
-- SQLAlchemy - to connect backend framework to external database
-- installed SQLAlchemy
-- importing engine 
-- called the function with specefic url 
-- creating a session 
-- sqlalchemy has session maker
-- session created 
-- initialized database
-- created table structure 
-- written the sql query
-- sucessfully created the api route for the signup
+## 4. Signup Validation
+- Developed the route for signup validation and installed PostgreSQL.
 
-6.
-- refactored code 
+## 5. Database Connection
+- Used SQLAlchemy to connect the backend framework to an external database.
+- Installed SQLAlchemy and imported the engine.
+- Called the function with a specific URL to create a session.
+- Utilized SQLAlchemy's session maker to create a session.
+- Initialized the database, created the table structure, and wrote the SQL query.
+- Successfully created the API route for signup.
 
+## 6. Code Refactoring
+- Refactored the code for improved readability and maintainability.
