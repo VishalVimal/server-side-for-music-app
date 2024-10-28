@@ -7,10 +7,12 @@ from pydantic_schemas.user_create import UserCreate
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
 
+from pydantic_schemas.user_login import UserLogin
+
 router = APIRouter()
 
 #if the user sends a request to the /auth/signup this /signup function is going to get triggered 
-@router.post('/signup')
+@router.post('/signup', status_code=201)
 def signup_user(user: UserCreate, db:Session=Depends(get_db)):
     #extracts the data that coming form the textfields
     #print(user.name+"\n",user.email+"\n",user.password) -> we have extracted the user data
@@ -29,3 +31,16 @@ def signup_user(user: UserCreate, db:Session=Depends(get_db)):
     db.refresh(user_db) #refresh all the instance in the userdb and stores the correct value
     return user_db
 
+@router.post('/login')
+def login_user(user: UserLogin, db: Session = Depends(get_db)): #dependency injection method 
+    # check if user is with the same email already exists
+    user_db = db.query(User).filter(User.email == user.email).first()#.all() 
+    
+    if not user_db:
+        raise HTTPException(400, "User with this email does not exist")
+    # password matching or not
+    is_match = bcrypt.checkpw(user.password.encode(), user_db.password)
+    
+    if not is_match:
+        raise HTTPException(400, "Incorrect password")
+    return user_db
